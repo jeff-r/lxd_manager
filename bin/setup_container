@@ -1,0 +1,33 @@
+#!/usr/bin/env ruby
+
+$: << "."
+
+require "lib/container_maker"
+require "trollop"
+
+class Runner
+  attr_reader :options, :maker
+
+  def initialize
+    get_options
+    @maker = ContainerMaker.new(options[:name])
+  end
+
+  def get_options
+    @options = Trollop::options do
+      opt :name,  "Container name", type: :string
+      opt :hosts, "Update hosts file"
+      opt :info,  "Show container info"
+      opt :key,   "Add public key to container"
+    end
+  end
+
+  def run
+    maker.create_if_needed if options[:name]
+    maker.add_to_hosts     if options[:hosts]
+    maker.add_public_key   if options[:key]
+    maker.show_info        if options[:info]
+  end
+end
+
+Runner.new.run

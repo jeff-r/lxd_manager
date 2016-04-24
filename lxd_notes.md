@@ -13,4 +13,5 @@ From my history. Installing the zfs loopback device with lxd:
   lxc image list
   lxc launch ubuntu:16.04 xenial
 
+Apparently, I currently need to reconfigure the bridge when I reboot:
 sudo dpkg-reconfigure -p medium lxd
